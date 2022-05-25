@@ -1,6 +1,6 @@
 {
   "name": "vuepress-plugin-code-block-edit",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Vuepress plugin for demo-block & code-edit",
   "main": "src/index.js",
   "bin": {

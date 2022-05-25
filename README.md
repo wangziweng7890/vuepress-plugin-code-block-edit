@@ -59,7 +59,7 @@ module.exports = {
 在您的项目根目录下使用
 
 ```
-kfvuepress init
+npx vuepress-plugin-code-block-edit init
 ```
 
 
