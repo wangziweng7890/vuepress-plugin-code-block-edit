@@ -18,7 +18,7 @@ npm i vuepress-plugin-code-block-edit -D
 
 ```js
 module.exports = {
-  plugins: ['vuepress-plugin-code-block-edit']
+  plugins: ['code-block-edit']
 }
 ```
 
@@ -52,7 +52,7 @@ module.exports = {
 
 ~~~
 
-## 进阶
+## 进阶(todo)
 
 如果您没有自己的vuepress项目，本插件也支持一键生vuepress配置，安装相关npm包
 
