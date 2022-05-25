@@ -2,7 +2,7 @@
 
 const chalk = require("chalk");
 const commander = require("commander");
-const pkg = require("../../package.json");
+const pkg = require("../package.json");
 const initStandard = require("./standard");
 const { program } = commander;
 

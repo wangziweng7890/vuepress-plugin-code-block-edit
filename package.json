@@ -1,10 +1,10 @@
 {
   "name": "vuepress-plugin-code-block-edit",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Vuepress plugin for demo-block & code-edit",
   "main": "src/index.js",
   "bin": {
-    "kfvuepress": "./script/createVuepressTemplate/index.js"
+    "kfvuepress": "./bin/index.js"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
