@@ -1,10 +1,13 @@
 {
   "name": "vuepress-plugin-code-block-edit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Vuepress plugin for demo-block & code-edit",
   "main": "src/index.js",
+  "bin": {
+    "kfvuepress": "./script/createVuepressTemplate/index.js"
+  },
   "scripts": {
-    "docs:dev": "vuepress dev docs --no-cache --debug",
+    "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "docs:build-preview": "vuepress build docs && anywhere -d docs/.vuepress/dist/"
   },
@@ -13,7 +16,20 @@
     "url": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit"
   },
   "dependencies": {
-    "vue-codemirror": "4.0.6"
+    "axios": "^0.20.0",
+    "boxen": "^4.2.0",
+    "chalk": "^4.0.0",
+    "commander": "^5.1.0",
+    "fs-extra": "^10.1.0",
+    "handlebars": "^4.7.6",
+    "inquirer": "^7.1.0",
+    "leven": "^3.1.0",
+    "lodash": "^4.17.20",
+    "ora": "^4.0.4",
+    "shelljs": "^0.8.4",
+    "slash": "^3.0.0",
+    "vue-codemirror": "4.0.6",
+    "vue-template-compiler": "^2.6.11"
   },
   "keywords": [
     "vuepress-plugin",
@@ -27,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit/issues"
   },
-  "homepage": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit#readme"
+  "homepage": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit#readme",
+  "devDependencies": {
+    "vuepress": "1.9.7"
+  }
 }

@@ -68,7 +68,7 @@ kfvuepress init
 
 1. 本插件代码参考 https://github.com/waycowei/vuepress-plugin-demo-container-v2 
    author：@waycowei
-2. code-block 与 code-edit 出自于明源云大客服前端团队 @luchx @suxiaoqiang
+2. code-block 与 code-edit 出自于明源云大客服前端团队 @luchx @suxq
 
 向以上人员致谢
 
