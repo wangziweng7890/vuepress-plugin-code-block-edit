@@ -1,0 +1,33 @@
+{
+  "name": "vuepress-plugin-code-block-edit",
+  "version": "0.0.1",
+  "description": "Vuepress plugin for demo-block & code-edit",
+  "main": "src/index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs --no-cache --debug",
+    "docs:build": "vuepress build docs",
+    "docs:build-preview": "vuepress build docs && anywhere -d docs/.vuepress/dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit"
+  },
+  "devDependencies": {
+    "markdown-it-container": "3.0.0",
+    "vue-template-compiler": "^2.6.11",
+    "vue-codemirror": "^4.0.6"
+  },
+  "keywords": [
+    "vuepress-plugin",
+    "vuepress",
+    "demo",
+    "block",
+    "edit"
+  ],
+  "author": "wangziweng7890",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit/issues"
+  },
+  "homepage": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit#readme"
+}
