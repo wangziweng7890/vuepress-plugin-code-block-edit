@@ -4,9 +4,19 @@
 const path = require('path');
 const renderDemoBlock = require('./common/render');
 const demoBlockContainers = require('./common/containers');
+import DemoBlock from "./DemoBlock.vue";
+import CodeEdit from "./CodeEdit.vue";
 module.exports = (options = {}, ctx) => {
   return {
-    enhanceAppFiles: path.resolve(__dirname, './enhanceAppFile.js'),
+    enhanceAppFiles() {
+      return {
+        name: "dynamic-code",
+        content: `export default ({ Vue }) => { 
+          Vue.component('DemoBlock', '${DemoBlock}');
+          Vue.component('CodeEdit', '${CodeEdit}');
+        }`,
+      };
+    },
     chainMarkdown(config) {
       config
         .plugin('containers')

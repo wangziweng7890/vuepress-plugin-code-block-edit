@@ -8,7 +8,6 @@
   </div>
 </template>
 <script>
-  // import FileList from '@/components/fileList/fileList';
   export default {
     data() {
       return {

@@ -22,6 +22,31 @@ module.exports = {
 }
 ```
 
+**如果要在线运行代码调试，需进行以下步骤**
+在`.vuepress` 同级目录新建 `code-edit/index.md` 文件并且添加以下代码 以便在线运行代码
+
+```md
+---
+layout: SpecialLayout
+---
+```
+
+在`.vuepress/components` 下新建 `SpecialLayout.vue`文件
+```vue
+<template>
+  <code-edit></code-edit>
+</template>
+<script>
+export default {
+  name: 'SpecialLayout'
+}
+</script>
+```
+
+## 开发
+
+**在进行完以上操作后，您即可使用本插件所有功能进行文档开发**
+
 在`.md` 文件中使用以下语法
 
 ~~~markdown
@@ -30,21 +55,16 @@ module.exports = {
 ```vue
 <template>
   <div>
-    <el-row>
-      <el-button>默认按钮</el-button>
-      <el-button type="primary">主要按钮</el-button>
-      <el-button type="success">成功按钮</el-button>
-      <el-button type="info">信息按钮</el-button>
-      <el-button type="warning">警告按钮</el-button>
-      <el-button type="danger">危险按钮</el-button>
-    </el-row>
+    <p>{{message}}</p>
+    <input v-model="message" placeholder="输入"></input>
   </div>
 </template>
 <script>
-  // import FileList from '@/components/fileList/index'; // 支持 import导入
   export default {
-    components: {
-      // FileList
+    data() {
+      return {
+        message: ''
+      }
     }
   };
 </script>
@@ -52,7 +72,7 @@ module.exports = {
 
 ~~~
 
-## 进阶(todo)
+## 进阶
 
 如果您没有自己的vuepress项目，本插件也支持一键生vuepress配置，安装相关npm包
 
@@ -62,7 +82,8 @@ module.exports = {
 npx vuepress-plugin-code-block-edit init
 ```
 
-
+## TODO
+code-edit中使用import语法
 
 ## 致谢
 

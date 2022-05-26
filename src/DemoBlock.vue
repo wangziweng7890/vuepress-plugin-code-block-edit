@@ -17,11 +17,11 @@
       </div>
     </div>
     <div ref="control" :class="['kf-demo-block-control', { 'is-fixed': isExpanded }]" @click="isExpanded = !isExpanded">
-      <transition name="arrow-slide">
-        <i :class="[iconClass, { hovering: hovering }]"></i>
+      <transition name="text-slide">
+        <i v-show="hovering">{{ iconClass }}</i>
       </transition>
       <transition name="text-slide">
-        <span v-show="hovering">{{ controlText }}</span>
+        <span v-show="hovering" class="btn">{{ controlText }}</span>
       </transition>
       <div class="control-button-container">
         <span
@@ -85,7 +85,7 @@ export default {
 
   computed: {
     iconClass() {
-      return this.isExpanded ? 'icon-top' : 'icon-bottom';
+      return this.isExpanded ? '▲' : '▼';
     },
 
     controlText() {
@@ -139,7 +139,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="stylus">
 .kf-demo-block {
   position: relative;
   border: solid 1px #ebebeb;
@@ -150,20 +150,6 @@ export default {
     color: #1f93ff;
     cursor: pointer;
     margin-left: 16px;
-  }
-
-  .icon-top::after {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    content: '▼';
-  }
-
-  .icon-bottom::after {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    content: '▲';
   }
 
   &.hover {
@@ -183,7 +169,6 @@ export default {
   }
 
   .meta {
-    background-color: var(--background-color-base);
     border-top: solid 1px #eaeefb;
     overflow: hidden;
     height: 0;
@@ -200,7 +185,6 @@ export default {
     color: #666;
     word-break: break-word;
     margin: 10px;
-    background-color: var(--background-color-bg);
 
     p {
       margin: 0;
@@ -214,13 +198,19 @@ export default {
     }
   }
 
+  #highlight {
+    & > .language-vue > .language-vue {
+      padding-top: 0;
+      margin-top: 0;
+    }
+  }
+
   .kf-demo-block-control {
     position: relative;
     z-index: 9;
     border-top: solid 1px #eaeefb;
     height: 44px;
     box-sizing: border-box;
-    background-color: var(--background-color-bg);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     text-align: center;
@@ -232,13 +222,14 @@ export default {
       top: 0;
       bottom: 0;
     }
-    i {
-      font-size: 16px;
+    > i {
+      position: absolute;
+      transform: translateX(-30px);
+      font-size: 14px;
       line-height: 44px;
       transition: 0.3s;
-      &.hovering {
-        transform: translateX(-40px);
-      }
+      display: inline-block;
+      color: #1f93ff;
     }
 
     > span {
@@ -251,7 +242,6 @@ export default {
     }
 
     &:hover {
-      color: var(--color-primary);
       background-color: #f9fafc;
     }
 
