@@ -49,7 +49,7 @@ function genInlineComponentText(template, script) {
   const finalOptions = {
     source: `<div>${template}</div>`,
     filename: 'inline-component', // TODO：这里有待调整
-    compiler
+    compiler,
   };
   const compiled = compileTemplate(finalOptions);
   // tips
@@ -71,6 +71,7 @@ function genInlineComponentText(template, script) {
   `;
   // todo: 这里采用了硬编码有待改进
   script = script.trim();
+  const componentNameList = [];
   if (script) {
     script = script
       .replace(/export\s+default/, 'const democomponentExport =')
@@ -83,10 +84,23 @@ function genInlineComponentText(template, script) {
         const namelist = s1.split(',');
         return namelist
           .map(n => {
+            let componentName = '';
             if (/^\s*\*\s+as\s+\S+\s*$/.test(n)) {
-              return `const ${n.split(' as ')[1]} = ${name}`;
+              componentName = n.split(' as ')[1];
+              componentNameList.push(componentName);
+              return `
+                const ${componentName} = ${name};
+                window.kfComponentObj = window.kfComponentObj || {};
+                window.kfComponentObj.${componentName} = ${name};
+                `;
             } else {
-              return `const ${n} = ${name}.default ? ${name}.default : ${name}`;
+              componentName = n;
+              componentNameList.push(componentName);
+              return `
+                const ${n} = ${name}.default ? ${name}.default : ${name};
+                window.kfComponentObj = window.kfComponentObj || {};
+                window.kfComponentObj.${n} = ${n};
+              `;
             }
           })
           .join(os.EOL);
@@ -103,12 +117,12 @@ function genInlineComponentText(template, script) {
       ...democomponentExport
     }
   })()`;
-  return [demoComponentContent, importPair];
+  return [demoComponentContent, importPair, componentNameList];
 }
 
 module.exports = {
   stripScript,
   stripStyle,
   stripTemplate,
-  genInlineComponentText
+  genInlineComponentText,
 };

@@ -48,6 +48,9 @@
 </template>
 
 <script>
+import CodeEdit from './CodeEdit.vue';
+import Vue from 'vue';
+
 /* eslint-disable */
 /**
  * 复制到剪切板
@@ -74,12 +77,15 @@ function copyToClipboard(code) {
 }
 export default {
   name: 'CustomDemoBlock',
+  props: {
+    componentNameList: [Array, String],
+  },
   data() {
     return {
       codeSource: '',
       hovering: false,
       isExpanded: false,
-      copyMessage: '复制代码'
+      copyMessage: '复制代码',
     };
   },
 
@@ -105,15 +111,22 @@ export default {
         );
       }
       return this.$el.getElementsByClassName('highlight')[0].clientHeight;
-    }
+    },
   },
 
   watch: {
     isExpanded(val) {
       this.codeArea.style.height = val ? `${this.codeAreaHeight + 1}px` : '0';
+    },
+  },
+  beforeCreate() {
+    let isEdit = new URL(location).searchParams.get('edit');
+    if (isEdit && !window.isInitCodeEdit) {
+      window.isInitCodeEdit = true; // 加个锁
+      const instance = Vue.extend(CodeEdit);
+      new instance().$mount('#app'); // 覆盖原页面内容
     }
   },
-
   mounted() {
     // 获取代码块内容
     const highlight = this.$el.querySelector('#highlight pre[class*=language-]');
@@ -133,9 +146,10 @@ export default {
     handleCodeView() {
       const codeSource = this.codeSource;
       sessionStorage.setItem('kf-vue-press-plugin-v1', JSON.stringify(codeSource));
-      window.open(location.origin + '/code-edit', '_blank');
-    }
-  }
+      sessionStorage.setItem('kf-vue-press-temp-component', JSON.stringify(this.componentNameList || []));
+      window.open(location.origin + location.pathname + '?edit=1');
+    },
+  },
 };
 </script>
 

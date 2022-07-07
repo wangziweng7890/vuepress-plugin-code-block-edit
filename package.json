@@ -7,7 +7,7 @@
     "kfvuepress": "./bin/index.js"
   },
   "scripts": {
-    "docs:dev": "vuepress dev docs",
+    "docs:dev": "vuepress dev docs --debug --no-cache",
     "docs:build": "vuepress build docs",
     "docs:build-preview": "vuepress build docs && anywhere -d docs/.vuepress/dist/"
   },
@@ -43,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit/issues"
   },
-  "homepage": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit#readme"
+  "homepage": "https://github.com/wangziweng7890/vuepress-plugin-code-block-edit#readme",
+  "devDependencies": {
+    "vuepress": "1.9.7"
+  }
 }

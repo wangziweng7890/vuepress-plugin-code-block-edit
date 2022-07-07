@@ -1,12 +1,8 @@
 <template>
   <div class="kf-preview-block">
     <div class="operate-container">
-      <span class="btn" @click="handleRun">
-        运行(ctrl + s)
-      </span>
-      <span class="btn" @click="handleReset">
-        重置
-      </span>
+      <span class="btn" @click="handleRun"> 运行(ctrl + s) </span>
+      <span class="btn" @click="handleReset"> 重置 </span>
     </div>
     <div class="preview-panel">
       <div class="preview-source" @keydown.ctrl.s="onCtrlSClick">
@@ -31,7 +27,33 @@ import 'codemirror/addon/selection/active-line'; //光标行背景高亮，配�
 import 'codemirror/keymap/sublime'; //sublime编辑器效果
 import 'codemirror/mode/vue/vue.js'; // 代码风格
 
+function getPascalByPackageName(name = '') {
+  return (
+    name
+      // 将非字母转为 --
+      .replace(/[^a-zA-Z]/g, '--')
+      // 将所有重复的 - 转为单个
+      .replace(/-+/g, '-')
+      // 将 -字母 转为 大写字母
+      .replace(/-([a-zA-Z]{1})/g, (s, s1) => s1.toUpperCase())
+      // 将首字母转为大写
+      .replace(/^([a-zA-Z]{1})/, (s, s1) => s1.toUpperCase())
+  );
+}
 function stripScript(content) {
+  content = content.replace(/import\s+(.*)\s+from\s+['"]{1}(.*)['"]{1}/g, (s, s1, s2) => {
+    const name = getPascalByPackageName(s2);
+    if (/^\s*{.*}\s*$/.test(s1)) {
+      return `const ${s1} = window.kfComponentObj.${s1}`;
+    }
+    const namelist = s1.split(',');
+    return namelist
+      .map(n => {
+        return `const ${n} = window.kfComponentObj.${n}`;
+      })
+      .join(';');
+  });
+  console.log(content);
   const result = content.match(/<(script)>([\s\S]+)<\/\1>/);
   return result && result[2] ? result[2].trim() : '';
 }
@@ -65,7 +87,7 @@ function scopedCss(cssContent, wrapper) {
 export default {
   name: 'CodePreview',
   components: {
-    codemirror
+    codemirror,
   },
   data() {
     return {
@@ -80,8 +102,8 @@ export default {
         styleActiveLine: true,
         lineNumbers: true,
         // matchBrackets: true, //括号匹配
-        autoCloseBrackets: true
-      }
+        autoCloseBrackets: true,
+      },
     };
   },
   watch: {
@@ -91,10 +113,14 @@ export default {
       const style = stripStyle(nv);
       this.renderCode({ script, html });
       this.insertCss({ style });
-    }
+    },
   },
   mounted() {
-    const source = JSON.parse(sessionStorage.getItem('kf-vue-press-plugin-v1'))
+    const source = JSON.parse(sessionStorage.getItem('kf-vue-press-plugin-v1'));
+    const componentList = JSON.parse(sessionStorage.getItem('kf-vue-press-temp-component'));
+    componentList.forEach(cmp => {
+      Vue.component(cmp, window.kfComponentObj[cmp]);
+    });
     this.source = source;
     this.codeSource = source;
   },
@@ -126,12 +152,12 @@ export default {
     handleReset() {
       let res = window.confirm('您当前的代码尚未保存，确认要重置吗？');
       if (res) {
-        const code = JSON.parse(sessionStorage.getItem('kf-vue-press-plugin-v1'))
+        const code = JSON.parse(sessionStorage.getItem('kf-vue-press-plugin-v1'));
         this.source = code;
         this.codeSource = code;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

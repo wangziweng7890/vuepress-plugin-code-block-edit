@@ -2,7 +2,7 @@
 const { stripScript, stripStyle, stripTemplate, genInlineComponentText } = require('./util.js');
 const os = require('os');
 
-module.exports = function(content) {
+module.exports = function (content) {
   if (!content) {
     return content;
   }
@@ -15,6 +15,7 @@ module.exports = function(content) {
   let componenetsString = ''; // 组件引用代码
   const templateArr = []; // 模板输出内容
   const styleArr = []; // 样式输出内容
+  const componentNameListArr = [];
   let id = 0; // demo 的 id
   let start = 0; // 字符串开始位置
   let commentStart = content.indexOf(startTag);
@@ -25,9 +26,10 @@ module.exports = function(content) {
     const html = stripTemplate(commentContent);
     const script = stripScript(commentContent);
     const style = stripStyle(commentContent);
-    const [demoComponentContent, tepimportPair] = genInlineComponentText(html, script); // 示例组件代码内容
+    const [demoComponentContent, tepimportPair, componentNameList] = genInlineComponentText(html, script); // 示例组件代码内容
     Object.assign(importPair, tepimportPair);
     const demoComponentName = `render-demo-${id}`; // 示例代码组件名称
+    componentNameListArr.push(...componentNameList);
     templateArr.push(`<template><${demoComponentName} /></template>`);
     styleArr.push(style);
     componenetsString += `${JSON.stringify(demoComponentName)}: ${demoComponentContent},`;
@@ -65,9 +67,15 @@ module.exports = function(content) {
     styleString = '<style></style>';
   }
   templateArr.push(content.slice(start));
+  let templateStr = templateArr.join('');
+  const encodeOptionsStr = encodeURI(JSON.stringify(componentNameListArr));
+  templateStr = templateStr.replace(
+    '<demo-block ',
+    `<demo-block :component-name-list="JSON.parse(decodeURI('${encodeOptionsStr}'))"`
+  );
   return {
-    template: templateArr.join(''),
+    template: templateStr,
     script: pageScript,
-    style: styleString
+    style: styleString,
   };
 };
