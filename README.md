@@ -4,7 +4,7 @@
 
 1. 使用自定义 ::: demo 语法，写一遍示例即可自动生成组件示例与代码示例；
 2. 支持示例中的 import 语法；
-3. 支持code在线编辑
+3. 支持code在线编辑,包括编辑含import的代码，但不支持再额外引入import
 
 ## 安装
 
@@ -20,27 +20,6 @@ npm i vuepress-plugin-code-block-edit -D
 module.exports = {
   plugins: ['code-block-edit']
 }
-```
-
-**如果要在线运行代码调试，需进行以下步骤**
-在`.vuepress` 同级目录新建 `code-edit/index.md` 文件并且添加以下代码 以便在线运行代码
-
-```md
----
-layout: SpecialLayout
----
-```
-
-在`.vuepress/components` 下新建 `SpecialLayout.vue`文件
-```vue
-<template>
-  <code-edit></code-edit>
-</template>
-<script>
-export default {
-  name: 'SpecialLayout'
-}
-</script>
 ```
 
 ## 开发
@@ -81,9 +60,6 @@ export default {
 ```
 npx vuepress-plugin-code-block-edit init
 ```
-
-## TODO
-code-edit中使用import语法
 
 ## 致谢
 
