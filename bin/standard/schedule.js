@@ -14,13 +14,9 @@ module.exports = class Schedule {
   }
 
   initTemplate() {
-    fs.copySync(
-      path.join(__dirname, "../templates"),
-      path.join(process.cwd(), "docs"),
-      {
-        overwrite: true,
-      }
-    );
+    fs.copySync(path.join(__dirname, "../templates"), path.join(process.cwd(), "docs"), {
+      overwrite: true,
+    });
   }
 
   writeJson() {
@@ -30,7 +26,17 @@ module.exports = class Schedule {
       jsonValue.devDependencies = {};
     }
     jsonValue.devDependencies["vuepress"] = "1.9.7";
-    jsonValue.scripts["docs:dev"] = "vuepress dev docs";
+    if (!jsonValue.scripts) {
+      jsonValue.scripts = {};
+    }
+    jsonValue.scripts = {
+      ...jsonValue.scripts,
+      "docs:dev": "vuepress dev docs",
+      "docs:build": "vuepress build docs",
+      "docs:build-preview": "vuepress build docs && anywhere -d docs/.vuepress/dist/",
+      "plugin:dev": "vuepress dev docs --debug --no-cache",
+    };
+
     fs.writeJSONSync(jsonPath, jsonValue, {
       spaces: "\t",
     });
@@ -51,7 +57,7 @@ module.exports = class Schedule {
           ],
         },
       ])
-      .then((answers) => {
+      .then(answers => {
         spinner.text = "配置文件更新完成，正在安装相关依赖，请耐心等待...";
         spinner.start();
         const reply = shell.exec(`${answers.choice}`);
@@ -59,8 +65,8 @@ module.exports = class Schedule {
           shell.exit(1);
         }
       })
-      .catch((error) => {
-        console.log('选择包管理工具出错', error);
+      .catch(error => {
+        console.log("选择包管理工具出错", error);
         shell.exit(1);
       })
       .finally(() => {
