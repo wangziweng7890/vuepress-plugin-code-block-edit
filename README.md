@@ -3,8 +3,8 @@
 ## 简介
 
 1. 使用自定义 ::: demo 语法，写一遍示例即可自动生成组件示例与代码示例；
-2. 支持示例中的 import 语法；
-3. 支持code在线编辑,包括编辑含import的代码，但不支持再额外引入import
+2. 支持在md中使用 import 语法；
+3. 支持code在线编辑,包括编辑含import的代码，但不支持在编辑页额外import其它的文件
 
 ## 安装
 
@@ -74,3 +74,6 @@ npx vuepress-plugin-code-block-edit init
 # 许可
 
 MIT License
+
+# 源码地址
+https://github.com/wangziweng7890/vuepress-plugin-code-block-edit

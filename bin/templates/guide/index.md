@@ -3,13 +3,13 @@
 ```vue
 <template>
   <div>
-    <p>card-{{message}}</p>
+    <p>index-{{message}}</p>
     <input v-model="message" placeholder="输入"></input>
-    <hello/>
+    <hello/> 
   </div>
 </template>
 <script>
-  import hello from 'hello.vue';
+  import hello from './hello.vue';
   export default {
     components: {
       hello
